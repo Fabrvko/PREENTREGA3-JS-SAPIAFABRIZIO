@@ -9,7 +9,8 @@ const marca = document.querySelector("#marca"),
   formInventario = document.querySelector("#formInventario");
 const radios = document.querySelectorAll('input[type="radio"]');
 
-//Libros ya guardados en inventario
+//Zapatillas guardadas en inv
+
 const inventario = [
   {
     marca: "Nike",
@@ -29,8 +30,8 @@ const inventario = [
   },
 ];
 
-//Seteo variable libros, si LS vacio entonces libros = inventario
-//#####
+//Seteo variables 
+
 let zapatillas;
 if(localStorage.getItem("inventario")){
   zapatillas = JSON.parse(localStorage.getItem("inventario"));
@@ -38,7 +39,8 @@ if(localStorage.getItem("inventario")){
   zapatillas = inventario
 }
 
-//Constructor del objeto Libro
+//Constructor del objeto Shoes
+
 function Shoes(marca, modelo, talle, categoria, precio, img) {
   this.marca = marca;
   this.modelo = modelo;
@@ -47,12 +49,14 @@ function Shoes(marca, modelo, talle, categoria, precio, img) {
   
 
   //Si campo precio vacío this.precio = 1
+
   if (precio == "") {
     this.precio = 1;
   } else {
     this.precio = parseFloat(precio);
   }
   //Si campo img vacío this.img genérica
+
   if (img == "") {
     this.img = `https://via.placeholder.com/150`;
   } else {
@@ -62,11 +66,13 @@ function Shoes(marca, modelo, talle, categoria, precio, img) {
 
 /* Declaración de Funciones */
 //Cargar al inventario
+
 function cargarInventario(arr, shoe) {
   arr.push(shoe);
 }
-//Funciones de LS
-function guardarLS(arr) {
+//Funciones de ZS
+
+function guardarZS(arr) {
   localStorage.setItem("inventario", JSON.stringify(arr));
 }
 
@@ -82,6 +88,7 @@ function filtrar(arr, filtro, param) {
 }
 
 //Manipular el DOM
+
 function crearHtml(arr) {
   tbody.innerHTML = "";
 
@@ -99,14 +106,14 @@ function crearHtml(arr) {
     tbody.innerHTML += html;
   }
   /* Agregar eventos a los botones */
-  //#######
+
   const arrayBotones = document.querySelectorAll("td .btn");
   arrayBotones.forEach((btn)=>{
     btn.addEventListener('click',()=>{
       zapatillas = zapatillas.filter((el) => el.talle != btn.id);
       console.log(zapatillas);
 
-      guardarLS(zapatillas);
+      guardarZS(zapatillas);
       crearHtml(zapatillas);
     })
   })
@@ -120,7 +127,7 @@ crearHtml(zapatillas);
 //Listeners
 formInventario.addEventListener("submit", (e) => {
   e.preventDefault();
-  //#####
+
   const newShoe= new Shoes(marca.value,
     modelo.value,
     talle.value,
@@ -130,7 +137,7 @@ formInventario.addEventListener("submit", (e) => {
 
 console.log(newShoe);
 cargarInventario(zapatillas, newShoe);
-guardarLS(zapatillas)
+guardarZS(zapatillas)
 crearHtml(zapatillas)
 formInventario.reset()
 });
